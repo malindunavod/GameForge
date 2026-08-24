@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GAMEFORGE | Forge. Play. Download.</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #070707;
+            color: #fff;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: #0d0d0d;
+            border-bottom: 1px solid #242424;
+            padding: 18px 25px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #ff3030;
+        }
+
+        .logo span {
+            color: #fff;
+        }
+
+        .tagline {
+            color: #777;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .admin-button {
+            background: #ff3030;
+            color: #fff;
+            border: 0;
+            padding: 11px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .admin-button:hover {
+            background: #d92525;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            max-width: 1200px;
+            margin: auto;
+            padding: 70px 25px 45px;
+        }
+
+        .hero h1 {
+            font-size: clamp(35px, 6vw, 65px);
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: #ff3030;
+        }
+
+        .hero p {
+            color: #888;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        /* ================= SEARCH ================= */
+
+        .search-area {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 25px 35px;
+        }
+
+        .search {
+            width: 100%;
+            padding: 16px 20px;
+            background: #111;
+            color: #fff;
+            border: 1px solid #292929;
+            border-radius: 8px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search:focus {
+            border-color: #ff3030;
+        }
+
+        /* ================= CONTENT ================= */
+
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 25px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 22px;
+        }
+
+        #games {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fill, minmax(260px, 1fr));
+            gap: 22px;
+        }
+
+        /* ================= GAME CARD ================= */
+
+        .game-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: .25s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff3030;
+            box-shadow:
+                0 12px 35px rgba(255, 48, 48, .12);
+        }
+
+        .game-cover {
+            height: 170px;
+            background: linear-gradient(
+                135deg,
+                #191919,
+                #080808
+            );
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 55px;
+            color: #333;
+        }
+
+        .game-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-info {
+            padding: 18px;
+        }
+
+        .game-info h2 {
+            font-size: 21px;
+            margin-bottom: 9px;
+        }
+
+        .game-info p {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.5;
+            min-height: 42px;
+        }
+
+        .category {
+            display: inline-block;
+            margin-top: 13px;
+            padding: 5px 9px;
+            border-radius: 4px;
+            background: #261010;
+            color: #ff4a4a;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .download {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #ff3030;
+            color: white;
+            border: 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .download:hover {
+            background: #d92525;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 70px 20px;
+            border: 1px dashed #292929;
+            border-radius: 10px;
+            color: #777;
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        /* ================= ADMIN MODAL ================= */
+
+        .modal {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0,0,0,.88);
+
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            z-index: 500;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 580px;
+
+            background: #151515;
+
+            border: 1px solid #2b2b2b;
+            border-radius: 12px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 20px 70px rgba(0,0,0,.7);
+        }
+
+        .modal-box h2 {
+            margin-bottom: 22px;
+        }
+
+        .input {
+            width: 100%;
+
+            padding: 13px;
+
+            margin-bottom: 14px;
+
+            background: #090909;
+
+            color: white;
+
+            border: 1px solid #292929;
+
+            border-radius: 6px;
+
+            outline: none;
+        }
+
+        .input:focus {
+            border-color: #ff3030;
+        }
+
+        textarea.input {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .save {
+            flex: 1;
+
+            background: #ff3030;
+            color: white;
+
+            border: 0;
+            border-radius: 6px;
+
+            padding: 13px;
+
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cancel {
+            background: #292929;
+            color: white;
+
+            border: 0;
+            border-radius: 6px;
+
+            padding: 13px 20px;
+
+            cursor: pointer;
+        }
+
+        /* ================= ADMIN LIST ================= */
+
+        .admin-list {
+            margin-top: 25px;
+            border-top: 1px solid #292929;
+            padding-top: 20px;
+        }
+
+        .admin-game {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 12px;
+
+            background: #0d0d0d;
+
+            border: 1px solid #222;
+            border-radius: 6px;
+
+            margin-bottom: 8px;
+        }
+
+        .delete {
+            background: #292929;
+            color: #ff5555;
+
+            border: 0;
+            padding: 8px 12px;
+
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            border-top: 1px solid #202020;
+            text-align: center;
+            padding: 25px;
+            color: #555;
+            font-size: 13px;
+        }
+
+        footer strong {
+            color: #ff3030;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width:700px) {
+
+            .nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .admin-button {
+                width: 100%;
+            }
+
+            .hero {
+                padding-top: 45px;
+            }
+
+            #games {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="nav">
+
+        <div>
+            <div class="logo">
+                GAME<span>FORGE</span>
+            </div>
+
+            <div class="tagline">
+                Forge. Play. Download.
+            </div>
+        </div>
+
+        <button
+            class="admin-button"
+            onclick="openAdmin()">
+
+            ⚙ Admin Panel
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <h1>
+        Welcome to <span>GAMEFORGE</span>
+    </h1>
+
+    <p>
+        Discover your next game.
+        Forge your collection.
+    </p>
+
+</section>
+
+
+<!-- ================= SEARCH ================= -->
+
+<section class="search-area">
+
+    <input
+        class="search"
+        id="search"
+        type="text"
+        placeholder="🔍 Search games..."
+        oninput="showGames()">
+
+</section>
+
+
+<!-- ================= GAME LIBRARY ================= -->
+
+<main>
+
+    <h2 class="section-title">
+        🎮 Game Library
+    </h2>
+
+    <div id="games"></div>
+
+</main>
+
+
+<!-- ================= ADMIN MODAL ================= -->
+
+<div class="modal" id="adminModal">
+
+    <div class="modal-box">
+
+        <h2>
+            ⚙ GameForge Admin
+        </h2>
+
+        <input
+            class="input"
+            id="gameName"
+            placeholder="Game name">
+
+        <input
+            class="input"
+            id="gameCategory"
+            placeholder="Category">
+
+        <input
+            class="input"
+            id="gameImage"
+            placeholder="Game image URL">
+
+        <input
+            class="input"
+            id="gameLink"
+            placeholder="Authorized download/store URL">
+
+        <textarea
+            class="input"
+            id="gameDescription"
+            placeholder="Game description"></textarea>
+
+        <div class="modal-buttons">
+
+            <button
+                class="save"
+                onclick="addGame()">
+
+                + Add Game
+
+            </button>
+
+            <button
+                class="cancel"
+                onclick="closeAdmin()">
+
+                Close
+
+            </button>
+
+        </div>
+
+        <div class="admin-list">
+
+            <h3>
+                Manage Games
+            </h3>
+
+            <div id="adminGames"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    © 2026 <strong>GAMEFORGE</strong>
+    — Forge. Play. Download.
+
+</footer>
+
+
+<script>
+
+    /*
+    ============================================
+    GAMEFORGE GAME DATABASE
+    ============================================
+    For now this uses browser localStorage.
+
+    Later we can replace this with:
+    - Firebase
+    - Google Cloud
+    - Supabase
+    - Your own backend/database
+    */
+
+    let games =
+        JSON.parse(
+            localStorage.getItem("gameforge_games")
+        ) || [];
+
+
+    /*
+    ============================================
+    SHOW GAMES
+    ============================================
+    */
+
+    function showGames() {
+
+        const container =
+            document.getElementById("games");
+
+        const search =
+            document
+                .getElementById("search")
+                .value
+                .toLowerCase();
+
+        container.innerHTML = "";
+
+
+        const filtered =
+            games.filter(game =>
+                game.name.toLowerCase().includes(search) ||
+                game.category.toLowerCase().includes(search)
+            );
+
+
+        if (filtered.length === 0) {
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🎮
+                    </div>
+
+                    <h2>
+                        No games available
+                    </h2>
+
+                    <p>
+                        Open the Admin Panel
+                        to add your first game.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        filtered.forEach(game => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "game-card";
+
+
+            let cover = `
+
+                <div class="game-cover">
+                    🎮
+                </div>
+
+            `;
+
+
+            if (game.image) {
+
+                cover = `
+
+                    <div class="game-cover">
+
+                        <img
+                            src="${safe(game.image)}"
+                            alt="${safe(game.name)}">
+
+                    </div>
+
+                `;
+            }
+
+
+            card.innerHTML = `
+
+                ${cover}
+
+                <div class="game-info">
+
+                    <h2>
+                        ${safe(game.name)}
+                    </h2>
+
+                    <p>
+                        ${safe(game.description)}
+                    </p>
+
+                    <span class="category">
+                        ${safe(game.category)}
+                    </span>
+
+                    <button
+                        class="download"
+                        onclick="openGame('${safe(game.link)}')">
+
+                        ⬇ Get Game
+
+                    </button>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(card);
+
+        });
+
+    }
+
+
+    /*
+    ============================================
+    ADD GAME
+    ============================================
+    */
+
+    function addGame() {
+
+        const name =
+            document
+                .getElementById("gameName")
+                .value
+                .trim();
+
+        const category =
+            document
+                .getElementById("gameCategory")
+                .value
+                .trim();
+
+        const image =
+            document
+                .getElementById("gameImage")
+                .value
+                .trim();
+
+        const link =
+            document
+                .getElementById("gameLink")
+                .value
+                .trim();
+
+        const description =
+            document
+                .getElementById("gameDescription")
+                .value
+                .trim();
+
+
+        if (!name || !category || !description) {
+
+            alert(
+                "Please enter the game name, category and description."
+            );
+
+            return;
+        }
+
+
+        games.unshift({
+
+            id: Date.now(),
+
+            name: name,
+
+            category: category,
+
+            image: image,
+
+            link: link,
+
+            description: description
+
+        });
+
+
+        saveGames();
+
+        clearForm();
+
+        showGames();
+
+        showAdminGames();
+
+        alert(
+            name + " was added to GameForge!"
+        );
+
+    }
+
+
+    /*
+    ============================================
+    DELETE GAME
+    ============================================
+    */
+
+    function deleteGame(id) {
+
+        const game =
+            games.find(item => item.id === id);
+
+        if (!game) return;
+
+
+        if (
+            confirm(
+                "Delete " + game.name + "?"
+            )
+        ) {
+
+            games =
+                games.filter(
+                    item => item.id !== id
+                );
+
+            saveGames();
+
+            showGames();
+
+            showAdminGames();
+
+        }
+
+    }
+
+
+    /*
+    ============================================
+    ADMIN GAME LIST
+    ============================================
+    */
+
+    function showAdminGames() {
+
+        const container =
+            document.getElementById("adminGames");
+
+        container.innerHTML = "";
+
+
+        if (games.length === 0) {
+
+            container.innerHTML = `
+
+                <p style="
+                    color:#666;
+                    margin-top:15px;
+                ">
+                    No games added yet.
+                </p>
+
+            `;
+
+            return;
+        }
+
+
+        games.forEach(game => {
+
+            const item =
+                document.createElement("div");
+
+            item.className = "admin-game";
+
+
+            item.innerHTML = `
+
+                <span>
+                    🎮 ${safe(game.name)}
+                </span>
+
+                <button
+                    class="delete"
+                    onclick="deleteGame(${game.id})">
+
+                    Delete
+
+                </button>
+
+            `;
+
+
+            container.appendChild(item);
+
+        });
+
+    }
+
+
+    /*
+    ============================================
+    OPEN / CLOSE ADMIN
+    ============================================
+    */
+
+    function openAdmin() {
+
+        document
+            .getElementById("adminModal")
+            .style.display = "flex";
+
+        showAdminGames();
+
+    }
+
+
+    function closeAdmin() {
+
+        document
+            .getElementById("adminModal")
+            .style.display = "none";
+
+    }
+
+
+    /*
+    ============================================
+    OPEN GAME LINK
+    ============================================
+    */
+
+    function openGame(link) {
+
+        if (!link) {
+
+            alert(
+                "This game does not have a link yet."
+            );
+
+            return;
+        }
+
+
+        window.open(
+            link,
+            "_blank",
+            "noopener,noreferrer"
+        );
+
+    }
+
+
+    /*
+    ============================================
+    SAVE
+    ============================================
+    */
+
+    function saveGames() {
+
+        localStorage.setItem(
+            "gameforge_games",
+            JSON.stringify(games)
+        );
+
+    }
+
+
+    /*
+    ============================================
+    CLEAR FORM
+    ============================================
+    */
+
+    function clearForm() {
+
+        document.getElementById("gameName").value = "";
+        document.getElementById("gameCategory").value = "";
+        document.getElementById("gameImage").value = "";
+        document.getElementById("gameLink").value = "";
+        document.getElementById("gameDescription").value = "";
+
+    }
+
+
+    /*
+    ============================================
+    SECURITY
+    ============================================
+    */
+
+    function safe(text) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            text || "";
+
+        return div.innerHTML;
+
+    }
+
+
+    /*
+    ============================================
+    START
+    ============================================
+    */
+
+    showGames();
+
+</script>
+
+</body>
+</html>
